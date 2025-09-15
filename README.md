@@ -2,19 +2,19 @@
 
 یک اپلیکیشن وب پیشرفته برای ردیابی لحظه‌ای قیمت طلا، دلار، یورو و سایر ارزها با قابلیت ربات تلگرام و رابط کاربری مدرن.
 
-##  فهرست مطالب
+## فهرست مطالب
 
 - [معرفی پروژه](#معرفی-پروژه)
 - [ویژگی‌ها](#ویژگی‌ها)
 - [نصب و راه‌اندازی](#نصب-و-راه‌اندازی)
+- [تنظیمات پروژه](#تنظیمات-پروژه)
 - [مستندات API](#مستندات-api)
 - [استفاده از ربات تلگرام](#استفاده-از-ربات-تلگرام)
 - [ساختار پروژه](#ساختار-پروژه)
-- [تنظیمات پیشرفته](#تنظیمات-پیشرفته)
 - [مشکلات رایج](#مشکلات-رایج)
 - [مشارکت در پروژه](#مشارکت-در-پروژه)
 
-##  معرفی پروژه
+## معرفی پروژه
 
 **Gold Tracker** یک سیستم جامع برای ردیابی قیمت‌های لحظه‌ای طلا و ارزهای مختلف است که شامل:
 
@@ -23,7 +23,7 @@
 - **Telegram Bot**: ربات تلگرام برای دسترسی آسان
 - **Real-time Data**: دریافت داده‌های لحظه‌ای از منابع معتبر
 
-###  منابع داده
+### منابع داده
 
 - **قیمت طلا**: [تجهیزات جی‌یو](https://www.tgju.org/profile/geram18)
 - **قیمت دلار/تتر**: [آرزدیجیتال](https://arzdigital.com/coins/tether/)
@@ -31,20 +31,20 @@
 
 ## ✨ ویژگی‌ها
 
-###  رابط کاربری
+### رابط کاربری
 - **طراحی مدرن**: رابط کاربری زیبا و کاربرپسند
 - **حالت تاریک/روشن**: قابلیت تغییر تم
 - **ریسپانسیو**: سازگار با تمام دستگاه‌ها
 - **RTL Support**: پشتیبانی کامل از راست به چپ
 - **PWA Ready**: آماده برای تبدیل به اپلیکیشن موبایل
 
-### ⚡ عملکرد
+### عملکرد
 - **بروزرسانی دستی**: کنترل کامل بر زمان بروزرسانی
-- **کش هوشمند**: کاهش مصرف منابع
 - **Error Handling**: مدیریت خطاهای پیشرفته
 - **Performance Monitoring**: نظارت بر عملکرد
+- **Timeout Protection**: محافظت در برابر درخواست‌های طولانی
 
-### 🤖 ربات تلگرام
+### ربات تلگرام
 - **دستورات ساده**: `/start` برای شروع
 - **Web App Integration**: اتصال مستقیم به اپلیکیشن وب
 - **User-friendly**: رابط کاربری آسان
@@ -59,9 +59,6 @@ python --version
 
 # Node.js 16+
 node --version
-
-# Redis Server
-redis-server --version
 
 # Git
 git --version
@@ -100,44 +97,7 @@ npm install
 yarn install
 ```
 
-### 4️⃣ تنظیم Redis
-
-```bash
-# نصب Redis (Ubuntu/Debian)
-sudo apt update
-sudo apt install redis-server
-
-# نصب Redis (Windows)
-# دانلود از: https://github.com/microsoftarchive/redis/releases
-
-# راه‌اندازی Redis
-redis-server
-```
-
-### 5️⃣ تنظیم متغیرهای محیطی
-
-فایل `.env` ایجاد کنید:
-
-```env
-# Telegram Bot
-TELEGRAM_BOT_TOKEN=your_bot_token_here
-
-# Redis
-REDIS_HOST=localhost
-REDIS_PORT=6379
-REDIS_DB=0
-
-# SSL Certificates (برای Production)
-SSL_CERT_PATH=/etc/letsencrypt/live/yourdomain.com/fullchain.pem
-SSL_KEY_PATH=/etc/letsencrypt/live/yourdomain.com/privkey.pem
-
-# Server
-HOST=0.0.0.0
-PORT=2083
-DEBUG=True
-```
-
-### 6️⃣ ساخت Frontend
+### 4️⃣ ساخت Frontend
 
 ```bash
 # ساخت پروژه React
@@ -147,7 +107,7 @@ npm run build
 yarn build
 ```
 
-### 7️⃣ راه‌اندازی سرویس‌ها
+### 5️⃣ راه‌اندازی سرویس‌ها
 
 #### Backend (Terminal 1):
 ```bash
@@ -159,10 +119,64 @@ python api.py
 python bot.py
 ```
 
-### 8️⃣ دسترسی به اپلیکیشن
+### 6️⃣ دسترسی به اپلیکیشن
 
 - **وب اپلیکیشن**: `https://localhost:2083`
 - **API**: `https://localhost:2083/prices`
+
+## ⚙️ تنظیمات پروژه
+
+### 1️⃣ تنظیم فایل `api.py`
+
+در فایل `api.py` مقادیر زیر را تغییر دهید:
+
+```python
+# خط 143-146: تنظیم مسیر گواهی SSL
+context.load_cert_chain(
+    certfile='/etc/letsencrypt/live/YOUR_DOMAIN/fullchain.pem',  # دامنه خود را جایگزین کنید
+    keyfile='/etc/letsencrypt/live/YOUR_DOMAIN/privkey.pem'      # دامنه خود را جایگزین کنید
+)
+
+# خط 147: تنظیم حالت debug
+app.run(debug=False, host="0.0.0.0", port=2083, ssl_context=context)
+```
+
+### 2️⃣ تنظیم فایل `bot.py`
+
+در فایل `bot.py` مقادیر زیر را تغییر دهید:
+
+```python
+# خط 3: توکن ربات تلگرام
+BOT_TOKEN = "TOKEN_HERE"  # توکن ربات خود را از @BotFather دریافت کنید
+
+# خط 4: آدرس وب اپلیکیشن
+WEB_APP_URL = "https://YOUR_DOMAIN:2083"  # دامنه خود را جایگزین کنید
+```
+
+### 3️⃣ تنظیم فایل `gold.js`
+
+در فایل `gold.js` مقادیر زیر را تغییر دهید:
+
+```javascript
+// خط 44: آدرس API
+const res = await fetch("https://YOUR_DOMAIN:2083/prices");  // دامنه خود را جایگزین کنید
+```
+
+### 4️⃣ تنظیم SSL (اختیاری)
+
+برای استفاده در production، گواهی SSL تنظیم کنید:
+
+```bash
+# نصب certbot
+sudo apt install certbot
+
+# دریافت گواهی SSL
+sudo certbot certonly --standalone -d yourdomain.com
+
+# تنظیم مسیر گواهی در api.py
+certfile='/etc/letsencrypt/live/yourdomain.com/fullchain.pem'
+keyfile='/etc/letsencrypt/live/yourdomain.com/privkey.pem'
+```
 
 ## 📚 مستندات API
 
@@ -217,7 +231,7 @@ python bot.py
 #### JavaScript (Fetch)
 ```javascript
 // دریافت تمام قیمت‌ها
-fetch('https://web.mrnitro.ir:2083/prices')
+fetch('https://yourdomain.com:2083/prices')
   .then(response => response.json())
   .then(data => {
     console.log('قیمت طلا:', data.gold_price);
@@ -234,7 +248,7 @@ fetch('https://web.mrnitro.ir:2083/prices')
 import requests
 
 # دریافت تمام قیمت‌ها
-response = requests.get('https://web.mrnitro.ir:2083/prices')
+response = requests.get('https://yourdomain.com:2083/prices')
 data = response.json()
 
 print(f"قیمت طلا: {data['gold_price']}")
@@ -245,31 +259,31 @@ print(f"قیمت یورو: {data['euro_price']}")
 #### cURL
 ```bash
 # دریافت تمام قیمت‌ها
-curl -X GET https://web.mrnitro.ir:2083/prices
+curl -X GET https://yourdomain.com:2083/prices
 
 # دریافت فقط قیمت طلا
-curl -X GET https://web.mrnitro.ir:2083/gold_price
+curl -X GET https://yourdomain.com:2083/gold_price
 ```
 
 ## 🤖 استفاده از ربات تلگرام
 
-### دستورات
-
-- `/start` - شروع ربات و نمایش دکمه اپلیکیشن وب
-
 ### تنظیم ربات
 
 1. ربات جدید در [@BotFather](https://t.me/botfather) ایجاد کنید
-2. توکن ربات را در فایل `.env` قرار دهید
+2. توکن ربات را در فایل `bot.py` قرار دهید
 3. ربات را اجرا کنید
+
+### دستورات
+
+- `/start` - شروع ربات و نمایش دکمه اپلیکیشن وب
 
 ### کد ربات
 
 ```python
 from telebot import TeleBot, types
 
-BOT_TOKEN = "your_bot_token"
-WEB_APP_URL = "https://web.mrnitro.ir:2083"
+BOT_TOKEN = "your_bot_token"  # توکن ربات خود را جایگزین کنید
+WEB_APP_URL = "https://yourdomain.com:2083"  # دامنه خود را جایگزین کنید
 
 bot = TeleBot(BOT_TOKEN, parse_mode=None)
 
@@ -294,7 +308,7 @@ if __name__ == "__main__":
     bot.infinity_polling(timeout=60, long_polling_timeout=120)
 ```
 
-##  ساختار پروژه
+## ساختار پروژه
 
 ```
 Gold-Tracker/
@@ -303,8 +317,7 @@ Gold-Tracker/
 ├── gold.js               # React Frontend
 ├── README.md             # مستندات پروژه
 ├── requirements.txt      # Python Dependencies
-├── package.json          # Node.js Dependencies
-└── .env                  # متغیرهای محیطی
+└── package.json          # Node.js Dependencies
 ```
 
 ### توضیح فایل‌ها
@@ -314,56 +327,16 @@ Gold-Tracker/
 - **`gold.js`**: کامپوننت React اصلی
 - **`requirements.txt`**: وابستگی‌های Python
 
-## ⚙️ تنظیمات پیشرفته
-
-### تنظیم SSL
-
-```python
-# در api.py
-context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-context.load_cert_chain(
-    certfile="/path/to/cert.pem",
-    keyfile="/path/to/key.pem"
-)
-```
-
-### تنظیم Redis
-
-```python
-# اتصال به Redis
-database = redis.Redis(
-    host="localhost",
-    port=6379,
-    db=0,
-    decode_responses=True
-)
-```
-
-### تنظیم CORS
-
-```python
-# در api.py
-from flask_cors import CORS
-CORS(app)
-```
-
 ## 🔧 مشکلات رایج
-
-### خطای Redis Connection
-
-```bash
-# بررسی وضعیت Redis
-redis-cli ping
-
-# راه‌اندازی مجدد Redis
-sudo systemctl restart redis
-```
 
 ### خطای SSL Certificate
 
 ```bash
 # بررسی مسیر فایل‌های SSL
 ls -la /etc/letsencrypt/live/yourdomain.com/
+
+# تولید گواهی خودامضا (Development)
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
 ```
 
 ### خطای Port در دست استفاده
@@ -386,54 +359,14 @@ pip install -r requirements.txt
 pip install --upgrade -r requirements.txt
 ```
 
-## 🐳 Docker (اختیاری)
+### خطای CORS
 
-### Dockerfile
+اگر از دامنه‌های مختلف استفاده می‌کنید، CORS را تنظیم کنید:
 
-```dockerfile
-FROM python:3.9-slim
-
-WORKDIR /app
-
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-COPY . .
-
-EXPOSE 2083
-
-CMD ["python", "api.py"]
-```
-
-### docker-compose.yml
-
-```yaml
-version: '3.8'
-
-services:
-  app:
-    build: .
-    ports:
-      - "2083:2083"
-    environment:
-      - REDIS_HOST=redis
-    depends_on:
-      - redis
-
-  redis:
-    image: redis:alpine
-    ports:
-      - "6379:6379"
-```
-
-### اجرا با Docker
-
-```bash
-# ساخت و اجرای کانتینرها
-docker-compose up --build
-
-# اجرا در پس‌زمینه
-docker-compose up -d
+```python
+# در api.py
+from flask_cors import CORS
+CORS(app, origins=['https://yourdomain.com'])
 ```
 
 ## 🤝 مشارکت در پروژه
@@ -452,7 +385,7 @@ docker-compose up -d
 3. تغییرات را commit کنید
 4. Pull Request ارسال کنید
 
-##  مجوز
+## مجوز
 
 این پروژه تحت مجوز MIT منتشر شده است.
 
@@ -462,7 +395,7 @@ docker-compose up -d
 - GitHub: [@AbolfazlRezayi](https://github.com/AbolfazlRezayi)
 - Telegram: [@MrNitro](https://t.me/MrNitro)
 
-##  تشکر
+## تشکر
 
 از تمام کسانی که در توسعه این پروژه مشارکت کرده‌اند تشکر می‌کنیم.
 
