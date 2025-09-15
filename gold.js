@@ -41,7 +41,7 @@ function Gold() {
   const fetchPrices = async () => {
     try {
       setError(null);
-      const res = await fetch("https://web.mrnitro.ir:2083/prices");
+      const res = await fetch("https://YOUR_DOMAIN:2083/prices");
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }

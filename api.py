@@ -164,7 +164,7 @@ def serve_react(path):
 if __name__ == '__main__':
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
     context.load_cert_chain(
-        certfile='/etc/letsencrypt/live/web.mrnitro.ir/fullchain.pem',
-        keyfile='/etc/letsencrypt/live/web.mrnitro.ir/privkey.pem'
+        certfile='/etc/letsencrypt/live/YOUR_DOMAIN/fullchain.pem',
+        keyfile='/etc/letsencrypt/live/YOUR_DOMAIN/privkey.pem'
     )
     app.run(debug=False, host="0.0.0.0", port=2083, ssl_context=context)

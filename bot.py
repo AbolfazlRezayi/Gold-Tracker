@@ -1,7 +1,7 @@
 from telebot import TeleBot, types
 
-BOT_TOKEN = "8459760445:AAE-faUtleq-4xye1PTjfa8-9VRlOnjdG3s"
-WEB_APP_URL = "https://web.mrnitro.ir:2083"  
+BOT_TOKEN = "TOKEN_HERE"
+WEB_APP_URL = "https://YOUR_DOMAIN:2083"
 
 bot = TeleBot(BOT_TOKEN, parse_mode=None)
 
