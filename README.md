@@ -23,6 +23,9 @@
 - **Telegram Bot**: ربات تلگرام برای دسترسی آسان
 - **Real-time Data**: دریافت داده‌های لحظه‌ای از منابع معتبر
 
+<img width="402" height="712" alt="image" src="https://github.com/user-attachments/assets/7e0ade6c-5a20-4961-8298-7b34f0bc2da0" />
+
+
 ### منابع داده
 
 - **قیمت طلا**: [تجهیزات جی‌یو](https://www.tgju.org/profile/geram18)
